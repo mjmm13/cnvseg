@@ -1,0 +1,114 @@
+#include "cnvseg/traindir/auxiliary/segway.inc"
+
+GRAPHICAL_MODEL model_seg
+
+frame: 0 {
+   variable: segCountDown {
+      type: TYPE_SEGCOUNTDOWN;
+      conditionalparents: seg(0) using DeterministicCPT("seg_segCountDown");
+   }
+
+   variable: seg {
+      type: TYPE_SEG;
+      conditionalparents: nil using DenseCPT("start_seg");
+   }
+
+#if CARD_SUBSEG > 1
+   variable: subseg {
+      type: TYPE_SUBSEG;
+      conditionalparents: seg(0) using DenseCPT("seg_subseg");
+   }
+#endif
+
+#ifndef USE_MFSDG
+   variable: presence__LogR {
+      type: discrete observed 1:1 cardinality CARD_PRESENCE;
+
+      conditionalparents: CONDITIONALPARENTS_PRESENCE;
+   }
+#endif
+
+   variable: LogR {
+      type: continuous observed 0:0;
+
+#ifdef USE_MFSDG
+      conditionalparents: CONDITIONALPARENTS_OBS
+                          using mixture collection("collection_seg_LogR")
+                          MAPPING_OBS;
+#else
+      switchingparents: presence__LogR(0) using mapping("internal:copyParent");
+
+      conditionalparents: CONDITIONALPARENTS_NIL_CONTINUOUS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS;
+#endif
+
+      weight: scale 0.000000 | scale 1.000000 | scale 2.000000 | scale 3.000000 | scale 4.000000 | scale 5.000000 | scale 6.000000 | scale 7.000000 | scale 8.000000 | scale 9.000000 | scale 10.000000 | scale 11.000000 | scale 12.000000 | scale 13.000000 | scale 14.000000 | scale 15.000000 | scale 16.000000 | scale 17.000000 | scale 18.000000 | scale 19.000000 | scale 20.000000 | scale 21.000000 | scale 22.000000 | scale 23.000000 | scale 24.000000 | scale 25.000000 | scale 26.000000 | scale 27.000000 | scale 28.000000 | scale 29.000000 | scale 30.000000 | scale 31.000000 | scale 32.000000 | scale 33.000000 | scale 34.000000 | scale 35.000000 | scale 36.000000 | scale 37.000000 | scale 38.000000 | scale 39.000000 | scale 40.000000 | scale 41.000000 | scale 42.000000 | scale 43.000000 | scale 44.000000 | scale 45.000000 | scale 46.000000 | scale 47.000000 | scale 48.000000 | scale 49.000000 | scale 50.000000;
+   }
+}
+
+frame: 1 {
+   variable: frameIndex {
+      type: discrete observed value frameNum cardinality CARD_FRAMEINDEX;
+      conditionalparents: CONDITIONALPARENTS_NIL_DISCRETE;
+   }
+
+   variable: ruler {
+      type: discrete hidden cardinality CARD_RULER;
+      conditionalparents: frameIndex(0) using DeterministicCPT("frameIndex_ruler");
+   }
+
+   variable: segCountDown {
+      type: TYPE_SEGCOUNTDOWN;
+      conditionalparents: segTransition(0), ruler(0), seg(0), segCountDown(-1)
+                          using DeterministicCPT("segTransition_ruler_seg_segCountDown_segCountDown");
+   }
+
+   variable: segTransition {
+      type: discrete hidden cardinality CARD_SEGTRANSITION;
+      conditionalparents: segCountDown(-1), seg(-1) using DenseCPT("segCountDown_seg_segTransition");
+      weight: scale SEGTRANSITION_WEIGHT_SCALE;
+   }
+
+   variable: seg {
+      type: TYPE_SEG;
+      conditionalparents: seg(-1) using DeterministicCPT("seg_seg_copy")
+                          | seg(-1) using DeterministicCPT("seg_seg_copy")
+                          | seg(-1) using DenseCPT("seg_seg");
+      switchingparents: segTransition(0) using mapping("internal:copyParent");
+   }
+
+#if CARD_SUBSEG > 1
+   variable: subseg {
+      type: TYPE_SUBSEG;
+      conditionalparents: subseg(-1) using DeterministicCPT("subseg_subseg_copy")
+                          | seg(0), subseg(-1) using DenseCPT("seg_subseg_subseg")
+                          | seg(0) using DenseCPT("seg_subseg");
+      switchingparents: segTransition(0) using mapping("internal:copyParent");
+   }
+#endif
+
+#ifndef USE_MFSDG
+   variable: presence__LogR {
+      type: discrete observed 1:1 cardinality CARD_PRESENCE;
+
+      conditionalparents: CONDITIONALPARENTS_PRESENCE;
+   }
+#endif
+
+   variable: LogR {
+      type: continuous observed 0:0;
+
+#ifdef USE_MFSDG
+      conditionalparents: CONDITIONALPARENTS_OBS
+                          using mixture collection("collection_seg_LogR")
+                          MAPPING_OBS;
+#else
+      switchingparents: presence__LogR(0) using mapping("internal:copyParent");
+
+      conditionalparents: CONDITIONALPARENTS_NIL_CONTINUOUS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS | CONDITIONALPARENTS_OBS using mixture collection("collection_seg_LogR") MAPPING_OBS;
+#endif
+
+      weight: scale 0.000000 | scale 1.000000 | scale 2.000000 | scale 3.000000 | scale 4.000000 | scale 5.000000 | scale 6.000000 | scale 7.000000 | scale 8.000000 | scale 9.000000 | scale 10.000000 | scale 11.000000 | scale 12.000000 | scale 13.000000 | scale 14.000000 | scale 15.000000 | scale 16.000000 | scale 17.000000 | scale 18.000000 | scale 19.000000 | scale 20.000000 | scale 21.000000 | scale 22.000000 | scale 23.000000 | scale 24.000000 | scale 25.000000 | scale 26.000000 | scale 27.000000 | scale 28.000000 | scale 29.000000 | scale 30.000000 | scale 31.000000 | scale 32.000000 | scale 33.000000 | scale 34.000000 | scale 35.000000 | scale 36.000000 | scale 37.000000 | scale 38.000000 | scale 39.000000 | scale 40.000000 | scale 41.000000 | scale 42.000000 | scale 43.000000 | scale 44.000000 | scale 45.000000 | scale 46.000000 | scale 47.000000 | scale 48.000000 | scale 49.000000 | scale 50.000000;
+   }
+}
+
+chunk 1:1

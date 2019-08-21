@@ -1,0 +1,151 @@
+#include "cnvseg/traindir/auxiliary/segway.inc"
+
+
+DT_IN_FILE inline
+
+4
+0
+map_frameIndex_ruler
+1 -1 { mod(p0, RULER_SCALE) == 0 }
+1
+map_seg_segCountDown
+1 
+ 0 3 0 1 default 
+ -1 1 
+ -1 1 
+ -1 1
+2
+map_segTransition_ruler_seg_segCountDown_segCountDown
+
+4
+    0 2 2 default
+      % segTransition(0) == 2 (seg transition):
+      % reinitialize the segCountDown value based on the usual tree
+      % used at the beginning of a segment
+      2 3 0 1 default
+    -1 1
+    -1 1
+    -1 1
+
+      % segTransition(0) in (0, 1) (no transition, subseg transition):
+      1 2 0 default
+            % ruler(0) == 0:
+            -1 { p3 } % not at ruler mark -> copy previous value
+
+            % ruler(0) == 1:
+            -1 { max(p3-1, 0) } % subtract 1 from previous value, or 0
+3
+map_seg_subseg_obs
+2 -1 { p0*CARD_SUBSEG + p1 } 
+NAME_COLLECTION_IN_FILE inline
+
+1
+0
+collection_seg_LogR
+3
+mx_seg0_subseg0_LogR
+mx_seg1_subseg0_LogR
+mx_seg2_subseg0_LogR
+DETERMINISTIC_CPT_IN_FILE inline
+
+5
+0
+seg_segCountDown
+1 CARD_SEG CARD_SEGCOUNTDOWN map_seg_segCountDown
+1
+frameIndex_ruler
+1 CARD_FRAMEINDEX CARD_RULER map_frameIndex_ruler
+2
+segTransition_ruler_seg_segCountDown_segCountDown
+4 CARD_SEGTRANSITION CARD_RULER CARD_SEG CARD_SEGCOUNTDOWN CARD_SEGCOUNTDOWN map_segTransition_ruler_seg_segCountDown_segCountDown
+3
+seg_seg_copy
+1 CARD_SEG CARD_SEG internal:copyParent
+4
+subseg_subseg_copy
+1 CARD_SUBSEG CARD_SUBSEG internal:copyParent
+DENSE_CPT_IN_FILE inline
+
+5
+0
+start_seg
+0 3
+0.333333333333 0.333333333333 0.333333333333
+1
+seg_subseg
+1 3 1
+1.0
+1.0
+1.0
+2
+seg_seg
+1 3 3
+0.0 0.5 0.5
+0.5 0.0 0.5
+0.5 0.5 0.0
+3
+seg_subseg_subseg
+2 3 1 1
+1.0
+
+1.0
+
+1.0
+4
+segCountDown_seg_segTransition
+2 2 3 3
+0.99 0.00999 1e-05
+0.99 0.00999 1e-05
+0.99 0.00999 1e-05
+
+0.99 0.01 0.0
+0.99 0.01 0.0
+0.99 0.01 0.0
+MEAN_IN_FILE inline
+
+3
+0
+mean_seg0_subseg0_LogR
+1 -0.677036630534
+1
+mean_seg1_subseg0_LogR
+1 -0.0331716812647
+2
+mean_seg2_subseg0_LogR
+1 0.622593977567
+COVAR_IN_FILE inline
+
+1
+0
+covar_LogR
+1 0.121079708625
+DPMF_IN_FILE inline
+
+1
+0
+dpmf_always
+1 1.0
+MC_IN_FILE inline
+
+3
+0
+1 COMPONENT_TYPE_DIAG_GAUSSIAN mc_asinh_norm_seg0_subseg0_LogR
+mean_seg0_subseg0_LogR covar_LogR
+1
+1 COMPONENT_TYPE_DIAG_GAUSSIAN mc_asinh_norm_seg1_subseg0_LogR
+mean_seg1_subseg0_LogR covar_LogR
+2
+1 COMPONENT_TYPE_DIAG_GAUSSIAN mc_asinh_norm_seg2_subseg0_LogR
+mean_seg2_subseg0_LogR covar_LogR
+MX_IN_FILE inline
+
+3
+0
+1 mx_seg0_subseg0_LogR
+1 dpmf_always mc_asinh_norm_seg0_subseg0_LogR
+1
+1 mx_seg1_subseg0_LogR
+1 dpmf_always mc_asinh_norm_seg1_subseg0_LogR
+2
+1 mx_seg2_subseg0_LogR
+1 dpmf_always mc_asinh_norm_seg2_subseg0_LogR
